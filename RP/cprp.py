@@ -7,7 +7,7 @@ from html import entities as htmlentitydefs
 from urllib.parse import parse_qs
 
 import cherrypy
-from jwkest import as_bytes
+from cryptojwt import as_bytes
 from oidcmsg.oauth2 import is_error_message
 
 logger = logging.getLogger(__name__)
