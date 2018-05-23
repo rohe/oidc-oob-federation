@@ -1,3 +1,4 @@
+#! /usr/bin/env python3
 import cherrypy
 import importlib
 import logging

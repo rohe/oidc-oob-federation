@@ -48,6 +48,32 @@ an example being:
 context is one of *registration*, *discovery* or *response*.
 The content of a file in this tree is expected to be a signed JSON Web Token.
  
+## Installation
+
+You will need pip to get everything installed.
+
+If you don’t have pip, this will help you with that: https://pip.pypa.io/en/stable/installing/
+
+Using pip you must install:
+ - oidcop
+ - oidcrp
+ - fedoidcendpoint
+ - fedoidcrp
+ - jinja2
+
+$ pip install X
+
+should do it. Where X is one of the 5 packages listed above.
+!! You MUST get all of them !!
+
+Once you have the 5 packages you can get the OOB mini fed setup.
+
+$ git clone https://github.com/rohe/oidc-oob-federation.git
+$ cd oidc-oob-federation
+
+and read README.md 
+But then you are already doing that so just keep on.
+
 ## Initial setup
 
 1. You have to create the Federation Operators keys. This you do by running
