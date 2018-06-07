@@ -7,9 +7,10 @@ import sys
 from urllib.parse import urlparse
 
 from oidcmsg.key_jar import init_key_jar
-from oidcop.cherrypy import OpenIDProvider
+from oidcop.cherryp import OpenIDProvider
 
 from fedoidcendpoint.endpoint_context import EndpointContext
+from oidcop.cookie import CookieDealer
 
 logger = logging.getLogger("")
 LOGFILE_NAME = 'op.log'
@@ -75,14 +76,15 @@ if __name__ == '__main__':
             'cors.expose_public.on': True
         }}
 
-    _provider_config = config.CONFIG['provider']
-    _server_info_config = _provider_config['server_info']
-    _jwks_config = _provider_config['jwks']
+    _server_info_config = config.CONFIG['server_info']
+    _jwks_config = _server_info_config['jwks']
 
     _kj = init_key_jar(iss=_server_info_config['issuer'], **_jwks_config)
 
+    cookie_dealer = CookieDealer(**_server_info_config['cookie_dealer'])
+
     endpoint_context = EndpointContext(_server_info_config, keyjar=_kj,
-                                       cwd=folder)
+                                       cwd=folder, cookie_dealer=cookie_dealer)
 
     for endp in endpoint_context.endpoint.values():
         p = urlparse(endp.endpoint_path)

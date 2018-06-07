@@ -3,7 +3,7 @@ import importlib
 import os
 import sys
 from urllib.parse import quote_plus
-from urllib.parse import urlparse, quote_plus
+from urllib.parse import urlparse
 
 from fedoidcendpoint.endpoint_context import EndpointContext
 from fedoidcmsg import ProviderConfigurationResponse
@@ -12,7 +12,7 @@ from fedoidcmsg.test_utils import create_federation_entities
 from fedoidcmsg.test_utils import make_signing_sequence
 from oidcmsg.key_jar import init_key_jar
 from oidcmsg.message import Message
-from oidcop.cherrypy import OpenIDProvider
+from oidcop.cherryp import OpenIDProvider
 
 for _dir in ['sms/discovery', 'sms/response','private', 'public', 'static']:
     if not os.path.isdir(_dir):

@@ -36,14 +36,8 @@ CAPABILITIES = {
 }
 
 CONFIG = {
-    'provider': {
-        'jwks': {
-            'private_path': 'private/jwks.json',
-            'key_defs': KEYDEFS,
-            'public_path': 'static/jwks.json'
-        },
         'server_info': {
-            "issuer": "https://127.0.0.1:8100",
+            "issuer": "https://127.0.0.1:8100/",
             "password": "mycket hemligt",
             "token_expires_in": 600,
             "grant_expires_in": 300,
@@ -51,39 +45,42 @@ CONFIG = {
             "verify_ssl": False,
             "capabilities": CAPABILITIES,
             'template_dir': 'templates',
-            "jwks": {
-                'url_path': '{}/static/jwks.json',
-                'local_path': 'static/jwks.json',
-                'private_path': 'own/jwks.json'
-            },
+            'jwks': {
+                'private_path': 'private/jwks.json',
+                'key_defs': KEYDEFS,
+                'public_path': 'static/jwks.json'
+                },
             'endpoint': {
                 'webfinger': {
-                    'path': '{}/.well-known/webfinger',
+                    'path': '.well-known/webfinger',
                     'class': Discovery,
                     'kwargs': {'client_authn_method': None}
                 },
                 'provider_info': {
-                    'path': '{}/.well-known/openid-configuration',
+                    'path': '.well-known/openid-configuration',
                     'class': provider_config.ProviderConfiguration,
                     'kwargs': {'client_authn_method': None}
                 },
                 'registration': {
-                    'path': '{}/registration',
+                    'path': 'registration',
                     'class': registration.Registration,
-                    'kwargs': {'client_authn_method': None}
+                    'kwargs': {
+                        'client_authn_method': None,
+                        'allow_anonymous': False  # the default
+                        }
                 },
                 'authorization': {
-                    'path': '{}/authorization',
+                    'path': 'authorization',
                     'class': Authorization,
                     'kwargs': {'client_authn_method': None}
                 },
                 'token': {
-                    'path': '{}/token',
+                    'path': 'token',
                     'class': AccessToken,
                     'kwargs': {}
                 },
                 'userinfo': {
-                    'path': '{}/userinfo',
+                    'path': 'userinfo',
                     'class': UserInfo,
                 }
             },
@@ -114,6 +111,15 @@ CONFIG = {
                     'kwargs': {'user': 'diana'}
                 }
             ],
+            'cookie_dealer': {
+                'symkey': 'ghsNKDDLshZTPn974nOsIGhedULrsqnsGoBFBLwUKuJhE2ch',
+                'cookie': {
+                    'name': 'oidc_op',
+                    'domain': "127.0.0.1",
+                    'path': '/',
+                    'max_age': 3600
+                    }
+                },
             'federation': {
                 'self_signer': {
                     'private_path': 'private/sign.json',
@@ -128,8 +134,7 @@ CONFIG = {
                 'fo_priority': ['https://edugain.org',
                                 'https://swamid.sunet.se']
             }
-        }
-    },
+        },
     'webserver': {
         'cert': 'certs/cert.pem',
         'key': 'certs/key.pem',
